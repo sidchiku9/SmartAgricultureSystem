@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Smart Agriculture System</string>
+    <string name="turnOff">Turn Off</string>
+    <string name="turnOn">Turn On</string>
+    <string name="DCMotor">Motor Management</string>
+    <string name="moistureTextview"> Current Moisture Level</string>
+    <string name="temperatureTextview"> Current Temperature</string>
+    <string name="humidityTextview"> Current Humidity Level</string>
+</resources>
