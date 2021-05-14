@@ -8,6 +8,34 @@
 
 
     <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/suggestionUpdate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="36dp"
+        android:background="@drawable/textview_border"
+        android:fontFamily="@font/quicksandregular"
+        android:padding="5dp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.099"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/suggestionTV" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/suggestionTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="36dp"
+        android:fontFamily="@font/quicksandsemibold"
+        android:text="Suggestions based on Analysis"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.258"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/humidityUpdate" />
+
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/humidityUpdate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -128,5 +156,14 @@
         app:layout_constraintHorizontal_bias="0.099"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/temperatureTV" />
+
+    <ImageView
+        android:id="@+id/imageView4"
+        android:layout_width="411dp"
+        android:layout_height="97dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/suggestionUpdate"
+        app:srcCompat="@drawable/grass" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
