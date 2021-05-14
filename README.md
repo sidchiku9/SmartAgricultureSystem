@@ -2,7 +2,7 @@
 
 The INO arduino file : 
 
-```
+```c++
 #include<ESP8266WiFi.h>
 #include<DHT.h>
 #include<FirebaseArduino.h>
