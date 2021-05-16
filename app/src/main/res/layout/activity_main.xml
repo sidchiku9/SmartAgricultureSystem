@@ -119,12 +119,12 @@
 
     <Button
         android:id="@+id/offButton"
+        style="@style/Widget.MaterialComponents.Button.Icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="21dp"
-        android:fontFamily="@font/quicksandsemibold"
         android:layout_marginTop="14dp"
-        style="@style/Widget.MaterialComponents.Button.Icon"
+        android:fontFamily="@font/quicksandsemibold"
         android:text="@string/turnOff"
         app:layout_constraintStart_toEndOf="@+id/onButton"
         app:layout_constraintTop_toBottomOf="@+id/motorManagementTV" />
@@ -165,5 +165,15 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/suggestionUpdate"
         app:srcCompat="@drawable/grass" />
+
+    <TextView
+        android:id="@+id/dcMotorStatus"
+        android:layout_width="98dp"
+        android:layout_height="29dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="24dp"
+        android:text="TextView"
+        app:layout_constraintStart_toEndOf="@+id/offButton"
+        app:layout_constraintTop_toBottomOf="@+id/motorManagementTV" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

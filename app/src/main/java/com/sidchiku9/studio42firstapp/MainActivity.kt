@@ -13,6 +13,7 @@ class MainActivity : AppCompatActivity() {
     private var moistureReference: DatabaseReference? = null
     private var temperatureReference: DatabaseReference? = null
     private var humidityReference: DatabaseReference? = null
+    private var dcStatus: DatabaseReference? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,6 +24,7 @@ class MainActivity : AppCompatActivity() {
         val moistureTextView = findViewById<TextView>(R.id.moistureUpdate)
         val temperatureTextView = findViewById<TextView>(R.id.temperatureUpdate)
         val humidityTextView = findViewById<TextView>(R.id.humidityUpdate)
+        val dcMotorStatus = findViewById<TextView>(R.id.dcMotorStatus)
 
         //DC MOTOR
 
@@ -34,6 +36,27 @@ class MainActivity : AppCompatActivity() {
         turnOffbutton.setOnClickListener {
             mDatabase!!.child("DC Motor Status").setValue(0)
         }
+
+        //DC MOTOR READ VALUE
+
+        dcStatus = FirebaseDatabase.getInstance().getReference("DC Motor Status")
+
+        dcStatus?.addValueEventListener(object : ValueEventListener{
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val dcStatus = snapshot.value.toString()
+
+                if(dcStatus == "0"){
+                    dcMotorStatus.text = "Motor is OFF"
+                }
+                else{
+                    dcMotorStatus.text = "Motor is ON"
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+        })
 
         //SOIL MOISTURE SENSOR
 
