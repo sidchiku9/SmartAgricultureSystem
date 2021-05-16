@@ -19,6 +19,8 @@ class MainActivity : AppCompatActivity() {
     private var MoistureLevel : String = ""
     private var Temperature : String = ""
 
+    //this is a test comment
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
