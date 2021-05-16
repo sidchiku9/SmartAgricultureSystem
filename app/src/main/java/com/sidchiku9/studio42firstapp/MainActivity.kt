@@ -1,10 +1,12 @@
 package com.sidchiku9.studio42firstapp
 
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.database.*
+import java.lang.NumberFormatException
 
 
 class MainActivity : AppCompatActivity() {
@@ -110,7 +112,6 @@ class MainActivity : AppCompatActivity() {
         })
 
         //SUGGESTIONS DATA ANALYSIS PART
-
-       suggestionsUpdate.text = "Update hoja bhenchod"
+        suggestionsUpdate.text = "The field is well watered. Expect good yield."
     }
 }
