@@ -14,6 +14,8 @@ class MainActivity : AppCompatActivity() {
     private var temperatureReference: DatabaseReference? = null
     private var humidityReference: DatabaseReference? = null
     private var dcStatus: DatabaseReference? = null
+    private var MoistureLevel : String = ""
+    private var Temperature : String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,6 +27,7 @@ class MainActivity : AppCompatActivity() {
         val temperatureTextView = findViewById<TextView>(R.id.temperatureUpdate)
         val humidityTextView = findViewById<TextView>(R.id.humidityUpdate)
         val dcMotorStatus = findViewById<TextView>(R.id.dcMotorStatus)
+        val suggestionsUpdate = findViewById<TextView>(R.id.suggestionUpdate)
 
         //DC MOTOR
 
@@ -64,12 +67,12 @@ class MainActivity : AppCompatActivity() {
 
         moistureReference?.addValueEventListener(object : ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
-                val text : String = snapshot.value.toString()
-                moistureTextView.text = text
+                MoistureLevel = snapshot.value.toString()
+                moistureTextView.text = MoistureLevel
             }
 
             override fun onCancelled(error: DatabaseError) {
-                TODO("Not yet implemented")
+                TODO("Error")
             }
 
         })
@@ -80,12 +83,12 @@ class MainActivity : AppCompatActivity() {
 
         temperatureReference?.addValueEventListener(object : ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
-                val text : String = snapshot.value.toString()
-                temperatureTextView.text = text
+                Temperature = snapshot.value.toString()
+                temperatureTextView.text = Temperature
             }
 
             override fun onCancelled(error: DatabaseError) {
-                TODO("Not yet implemented")
+                TODO("Error")
             }
 
         })
@@ -105,5 +108,9 @@ class MainActivity : AppCompatActivity() {
             }
 
         })
+
+        //SUGGESTIONS DATA ANALYSIS PART
+
+       suggestionsUpdate.text = "Update hoja bhenchod"
     }
 }
