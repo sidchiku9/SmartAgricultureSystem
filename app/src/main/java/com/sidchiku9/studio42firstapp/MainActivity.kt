@@ -16,9 +16,12 @@ class MainActivity : AppCompatActivity() {
     private var temperatureReference: DatabaseReference? = null
     private var humidityReference: DatabaseReference? = null
     private var dcStatus: DatabaseReference? = null
-    private var MoistureLevel : String = ""
-    private var Temperature : String = ""
-
+    private var dataAnalysisOne : DatabaseReference? = null
+    private var dataAnalysisTwo : DatabaseReference? = null
+    private var moistureLevel : String = ""
+    private var temperature : String = ""
+    private var moistureDA : Int = 0
+    private var temperatureDA : Int = 0
     //this is a test comment
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -71,8 +74,8 @@ class MainActivity : AppCompatActivity() {
 
         moistureReference?.addValueEventListener(object : ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
-                MoistureLevel = snapshot.value.toString()
-                moistureTextView.text = MoistureLevel
+                moistureLevel = snapshot.value.toString()
+                moistureTextView.text = moistureLevel
             }
 
             override fun onCancelled(error: DatabaseError) {
@@ -87,8 +90,8 @@ class MainActivity : AppCompatActivity() {
 
         temperatureReference?.addValueEventListener(object : ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
-                Temperature = snapshot.value.toString()
-                temperatureTextView.text = Temperature
+                temperature = snapshot.value.toString()
+                temperatureTextView.text = temperature
             }
 
             override fun onCancelled(error: DatabaseError) {
@@ -114,6 +117,38 @@ class MainActivity : AppCompatActivity() {
         })
 
         //SUGGESTIONS DATA ANALYSIS PART
-        suggestionsUpdate.text = "The field is well watered. Expect good yield."
+        dataAnalysisOne = FirebaseDatabase.getInstance().getReference("Soil Moisture Sensor")
+        dataAnalysisTwo = FirebaseDatabase.getInstance().getReference("Temperature Sensor")
+
+        dataAnalysisOne?.addValueEventListener(object : ValueEventListener{
+            override fun onDataChange(snapshot: DataSnapshot) {
+                moistureDA = (snapshot.value as Long).toInt()
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+        })
+
+        dataAnalysisTwo?.addValueEventListener(object : ValueEventListener{
+            override fun onDataChange(snapshot: DataSnapshot) {
+                temperatureDA = (snapshot.value as Long).toInt()
+
+                if(temperatureDA <= 25 && moistureDA >= 80){
+                    suggestionsUpdate.text = "Ideal Temp and Moisture. The field is in an ideal condition. Maintain this to expect good yield."
+                }
+                else if(temperatureDA >= 30 && moistureDA <= 75){
+                    suggestionsUpdate.text = "Low moisture. Please water the fields."
+                }
+                else{
+                    suggestionsUpdate.text = "Please refresh the app."
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+
+        })
     }
 }
