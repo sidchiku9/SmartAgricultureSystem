@@ -27,7 +27,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="36dp"
         android:fontFamily="@font/quicksandbold"
-        android:text="Suggestions based on Analysis"
+        android:text="@string/suggestions_based_on_analysis"
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -108,14 +108,15 @@
 
     <Button
         android:id="@+id/onButton"
+        style="@style/Widget.MaterialComponents.Button.Icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:padding="10dp"
-        android:fontFamily="@font/quicksandbold"
         android:layout_marginTop="14dp"
-        style="@style/Widget.MaterialComponents.Button.Icon"
+        android:fontFamily="@font/quicksandbold"
+        android:padding="10dp"
         android:text="@string/turnOn"
+        android:textColor="#616161"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/motorManagementTV" />
 
@@ -126,9 +127,10 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="21dp"
         android:layout_marginTop="14dp"
-        android:padding="10dp"
         android:fontFamily="@font/quicksandbold"
+        android:padding="10dp"
         android:text="@string/turnOff"
+        android:textColor="#616161"
         app:layout_constraintStart_toEndOf="@+id/onButton"
         app:layout_constraintTop_toBottomOf="@+id/motorManagementTV" />
 
@@ -168,18 +170,22 @@
         android:layout_height="29dp"
         android:layout_marginStart="24dp"
         android:layout_marginTop="24dp"
-        android:text="TextView"
+        android:text="@string/textview"
         app:layout_constraintStart_toEndOf="@+id/offButton"
         app:layout_constraintTop_toBottomOf="@+id/motorManagementTV" />
 
     <ImageView
         android:id="@+id/imageView4"
-        android:layout_width="413dp"
-        android:layout_height="91dp"
+        android:layout_width="463dp"
+        android:layout_height="78dp"
         android:layout_marginTop="68dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/suggestionTV"
-        app:srcCompat="@drawable/grass" />
+        app:layout_constraintVertical_bias="1.0"
+        app:srcCompat="@drawable/grass"
+        tools:ignore="ImageContrastCheck"
+        android:contentDescription="@string/todo" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

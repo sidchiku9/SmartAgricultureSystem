@@ -1,13 +1,11 @@
 package com.sidchiku9.studio42firstapp
 
 import android.os.Bundle
-import android.util.Log
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.database.*
-import java.lang.NumberFormatException
 
 
 class MainActivity : AppCompatActivity() {
@@ -29,8 +27,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val turnOnbutton = findViewById<Button>(R.id.onButton)
-        val turnOffbutton = findViewById<Button>(R.id.offButton)
+        val turnOnButton = findViewById<Button>(R.id.onButton)
+        val turnOffButton = findViewById<Button>(R.id.offButton)
         val moistureTextView = findViewById<TextView>(R.id.moistureUpdate)
         val temperatureTextView = findViewById<TextView>(R.id.temperatureUpdate)
         val humidityTextView = findViewById<TextView>(R.id.humidityUpdate)
@@ -41,10 +39,10 @@ class MainActivity : AppCompatActivity() {
 
         mDatabase = FirebaseDatabase.getInstance().reference
 
-        turnOnbutton.setOnClickListener {
+        turnOnButton.setOnClickListener {
             mDatabase!!.child("DC Motor Status").setValue(1)
         }
-        turnOffbutton.setOnClickListener {
+        turnOffButton.setOnClickListener {
             mDatabase!!.child("DC Motor Status").setValue(0)
         }
 
@@ -56,11 +54,15 @@ class MainActivity : AppCompatActivity() {
             override fun onDataChange(snapshot: DataSnapshot) {
                 val dcStatus = snapshot.value.toString()
 
-                if(dcStatus == "0"){
-                    dcMotorStatus.text = "Motor is OFF"
+                @Suppress("CascadeIf")
+                if(dcStatus == "1"){
+                    dcMotorStatus.text = getString(R.string.motoron)
+                }
+                else if(dcStatus == "0"){
+                    dcMotorStatus.text = getString(R.string.motoroff)
                 }
                 else{
-                    dcMotorStatus.text = "Motor is ON"
+                    dcMotorStatus.text = getString(R.string.motorerr)
                 }
             }
 
@@ -136,13 +138,13 @@ class MainActivity : AppCompatActivity() {
                 temperatureDA = (snapshot.value as Long).toInt()
 
                 if(temperatureDA <= 25 && moistureDA >= 80){
-                    suggestionsUpdate.text = "Ideal Temp and Moisture. The field is in an ideal condition. Maintain this to expect good yield."
+                    suggestionsUpdate.text = getString(R.string.sugideal)
                 }
                 else if(temperatureDA >= 30 && moistureDA <= 75){
-                    suggestionsUpdate.text = "Low moisture. Please water the fields."
+                    suggestionsUpdate.text = getString(R.string.suglow)
                 }
                 else{
-                    suggestionsUpdate.text = "Please refresh the app."
+                    suggestionsUpdate.text = getString(R.string.sugref)
                 }
             }
 
