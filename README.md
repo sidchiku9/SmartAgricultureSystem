@@ -3,48 +3,70 @@
 The INO arduino file : 
 
 ```c++
-#include<ESP8266WiFi.h>
-#include<DHT.h>
-#include<FirebaseArduino.h>
+#include <DHT.h>
+#include <Stepper.h>
 
+const int stepsPerRevolution = 90;
+#define DHTPIN 7  
+#define DHTTYPE DHT22   
+DHT dht(DHTPIN, DHTTYPE);
+const int dry = 595;
+const int wet = 239;
+int chk;
+float hum; 
+float temp;
+Stepper myStepper(stepsPerRevolution, 9, 10, 11, 12);
 #define ssid "hello"
 #define password "chikusid9"
 #define firebaseHost "studio42-first-app-default-rtdb.firebaseio.com"
 #define firebaseAuth "tPPoGYE2nNRYyeNcOkLjAfmoQUKhhEP6WGV1NOuH"
 
-#define DHTPIN 7
-#define DHTTYPE DHT22
-
-int dcMotorpositive;
-int dcMotornegative;
-int soilMoisturePin = A0;
-
-int soilMoistureLevel;
-int temperature;
-int humidity;
-int dcMotorstatus;
-
-DHT dht(DHTPIN, DHTTYPE);
-
 void setup() {
-  Serial.begin(115200);
-  getConnection();
-  Firebase.begin(firebaseHost, firebaseAuth);
-  dht.begin();
+    Serial.begin(9600);
+    dht.begin();
+    //getConnection();
+    myStepper.setSpeed(5);
 }
 
 void loop() {
+  calcSoilMoisture();
+  myStepper.step(stepsPerRevolution);
+  readTempAndHum();
+  //sendtoFirebase();
+  delay(2000);
+}
 
-  dcMotorstatus = readMotor();
+void calcSoilMoisture(){
+  int sensorVal = analogRead(A0);
+  int percentageHumidity = map(sensorVal, wet, dry, 100, 0);
+  Serial.print("Soil Moisture");
+  Serial.print(percentageHumidity);
+  Serial.println("%");
+}
 
-  temperature = dht22Temperature();
+void readTempAndHum(){
+    hum = dht.readHumidity();
+    temp= dht.readTemperature();
+    Serial.print("Humidity: ");
+    Serial.print(hum);
+    Serial.print(" %, Temp: ");
+    Serial.print(temp);
+    Serial.println(" Celsius");
+}
 
-  humidity = dht22Humidity();
+void getConnection(){
+  WiFi.begin(ssid, password); 
+  Serial.print("connecting"); 
+  while (WiFi.status() != WL_CONNECTED) { 
+    Serial.print("."); 
+    delay(500); 
+  } 
+  Serial.println(); 
+  Serial.print("connected: "); 
+  Serial.println(WiFi.localIP());
+}
 
-  soilMoistureLevel = soilMoistureWriteFunction();
-  
-  //<!-- Send data to firebase code
-  //send data to firebase
+void sendtoFirebase(){
   Firebase.setFloat("Soil Moisture Sensor", soilMoistureLevel); // delay(3600000); for actual real world testing
   if(Firebase.failed()){
     Serial.print("setting /number failed:");
@@ -63,48 +85,5 @@ void loop() {
     Serial.println(Firebase.error());  
     return;
     }
-    //send data to firebase code ends here --!>
-    
-  delay(1000); //for simulation purposes
-}
-
-//function to connect the board to WiFi
-void getConnection(){
-  WiFi.begin(ssid, password); 
-  Serial.print("connecting"); 
-  while (WiFi.status() != WL_CONNECTED) { 
-    Serial.print("."); 
-    delay(500); 
-  } 
-  Serial.println(); 
-  Serial.print("connected: "); 
-  Serial.println(WiFi.localIP());
-}
-
-//functions for temperature and humidity (update)
-int dht22Temperature(){
-  int temp;
-  temp = dht.readTemperature();
-  return temp;
-}
-
-int dht22Humidity(){
-  int hum;
-  hum = dht.readHumidity();
-  return hum;
-}
-
-//function for soil moisture sensor (update)
-int soilMoistureWriteFunction(){
-  int soil;
-  soil = analogRead(soilMoisturePin);
-  return soil;
-}
-
-//function to read DC Motor Status (read)
-int readMotor(){
-  int dcStatus;
-  dcStatus = Firebase.getFloat("DC Motor Status");
-  return dcStatus;
-}
+ }
 ```
